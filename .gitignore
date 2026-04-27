@@ -1,0 +1,6 @@
+mynewrepo/*
+scripts/split_scripts/*
+out/*
+*.pdf
+
+
