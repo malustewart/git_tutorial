@@ -38,5 +38,3 @@ git  --no-pager log --all --decorate --oneline --graph
 git merge testing
 git  --no-pager log --all --decorate --oneline --graph
 
-###
-

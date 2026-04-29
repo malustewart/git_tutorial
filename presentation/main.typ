@@ -66,6 +66,8 @@
 
 = Introducción a git
 
+_Tutorial basado en: https://git-scm.com/docs/git-log _
+
 == ¿Qué es git?
 
  - Es un sistema de control de versiones (VCS)
@@ -175,9 +177,6 @@ In this repository I will put all the code for my project
 ```]
 
 ]
-
-
-
 
 
 #pagebreak()
@@ -316,7 +315,123 @@ Antes de ejecutarlo, estar 100% seguro que se quieren descartar los cambios del 
 
 == Ver historial de commits
 
+Para ver el historial de commits, se puede usar el comando #code("git log").
+
+_Para más información: https://git-scm.com/docs/git-log _
+
+#pagebreak()
+#bash_snippet("12_view_commit_history_00_out.txt")
+
+#pagebreak()
+#bash_snippet("12_view_commit_history_01_out.txt")
+
+#pagebreak()
+#bash_snippet("12_view_commit_history_02_out.txt")
+
+#pagebreak()
+#bash_snippet("12_view_commit_history_03_out.txt")
+
+#pagebreak()
+Combinación muy útil: 
+
+#code("git log --all --decorate --oneline --graph")
+#bash_snippet("12_view_commit_history_04_out.txt")
+
+Regla para memorizar: A DOG
+ - A: #code("--all")
+ - D: #code("--decorate")
+ - O: #code("--oneline")
+ - G: #code("--graph")
+
 = Branches
+
+== Una rama simple y merge sin conflictos
+
+#figure(
+  image("assets/branching.svg", height: 70%)
+)
+
+#pagebreak()
+
+#bash_snippet("13_handle_branches_00_out.txt", expl: "Se crea una nueva rama llamada testing, pero el repositorio local apunta a la rama master.")
+
+#figure(
+  image("assets/head_to_master.png", height: 70%)
+)
+
+#figure(
+  image("assets/head_to_testing.png", height: 70%)
+)
+
+#pagebreak()
+#bash_snippet("13_handle_branches_01_out.txt", expl: [Con el comando #code("git checkout testing"), el repositorio local pasa a apuntar a la rama testing.])
+
+_Nota: Para cambiar de rama, también se puede ejecutar el comando:_
+
+_#code("git switch testing")_
+
+// #pagebreak()
+// #bash_snippet("13_handle_branches_02_out.txt")
+
+#emph-block[
+  *Paso manual:*
+  - Crear un nuevo archivo con el nombre #code("tests.m") en el directorio raíz del repositorio. Ejemplo:
+
+#file("tests.m", lang:"matlab")[```
+import matlab.unittest.TestCase
+tc = TestCase.forInteractiveUse;
+tc.verifyEqual(1+1, 2);
+```]
+
+]
+
+#pagebreak()
+#bash_snippet("13_handle_branches_03_out.txt")
+
+#pagebreak()
+Después de hacer un commit en testing, las ramas testing y master ya no apuntan más al mismo commit:
+#figure(
+  image("assets/advance-testing.png", height: 70%)
+)
+
+#pagebreak()
+#bash_snippet("13_handle_branches_04_out.txt")
+
+#pagebreak()
+Para incorporar los cambios de la rama testing a la master, primero hay que pararse en la rama master:
+#bash_snippet("13_handle_branches_05_out.txt")
+
+#pagebreak()
+Una vez parados en master, se usa el comando #code("git merge testing") para traer los cambios de la rama testing a la rama master:
+#bash_snippet("13_handle_branches_06_out.txt")
+
+== Merge con conflictos
+
+#bash_snippet("13_handle_merge_conflict_00_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_01_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_02_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_03_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_04_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_05_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_06_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_07_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_08_out.txt")
 
 = Trabajo con repositorio remoto
 == Clonar un repositorio remoto existente
