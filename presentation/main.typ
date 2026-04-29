@@ -7,6 +7,15 @@
 
 #show: university-theme.with(
     align: horizon,
+    config-info(
+      title: [Introducción a git],
+      subtitle: [Tutorial práctico],
+      author: [María Luz Stewart Harris],
+      // date: datetime.today(),
+      institution: [Instituto Balseiro],
+      contact: "maria.stewart@ib.edu.ar",
+      // logo: emoji.school,
+    ),
   )
 
 #let todo(msg) = box(fill: red, width: 100%, height: 100%)[#msg]
@@ -61,21 +70,19 @@
 ]
 
 
-// #title-slide()
+#title-slide()
 
 
-= Introducción a git
+_Tutorial basado en https://git-scm.com/book/en/v2/ _
 
-_Tutorial basado en: https://git-scm.com/docs/git-log _
-
-== ¿Qué es git?
+= ¿Qué es git?
 
  - Es un sistema de control de versiones (VCS)
 #pause
  - Es un software libre y gratis (*"free as in speech _and_ as in beer"*)
 
 #pagebreak()
-=== ¿Qué ventajas tiene git por sobre otros VCS?
+== ¿Qué ventajas tiene git por sobre otros VCS?
   #pause
  - Es rápido
   #pause
@@ -91,7 +98,7 @@ _Tutorial basado en: https://git-scm.com/docs/git-log _
   _Mas información: https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git _
 
 #pagebreak()
-=== ¿Cómo guarda todas las versiones de un proyecto?
+== ¿Cómo guarda todas las versiones de un proyecto?
 
 #figure(
   image("assets/snapshots.png", width: 80%),
@@ -101,7 +108,7 @@ _Tutorial basado en: https://git-scm.com/docs/git-log _
 )
 
 #pagebreak()
-=== ¿Dónde guarda todas las versiones de un proyecto?
+== ¿Dónde guarda todas las versiones de un proyecto?
 
 #pause
   - (Casi) todas las operaciones son locales!
@@ -114,7 +121,7 @@ _Tutorial basado en: https://git-scm.com/docs/git-log _
       - trabajo colaborativo
 
 #pagebreak()
-=== ¿Cómo es la estructura de un repositorio?
+== ¿Cómo es la estructura de un repositorio?
 
 #figure(
   image("assets/branching.svg", height: 70%),
@@ -124,7 +131,7 @@ _Tutorial basado en: https://git-scm.com/docs/git-log _
 )
 
 #pagebreak()
-=== Áreas de trabajo
+== Áreas de trabajo
 
 #figure(
   image("assets/areas.png", width: 80%),
@@ -134,7 +141,7 @@ _Tutorial basado en: https://git-scm.com/docs/git-log _
 )
 
 #pagebreak()
-=== Estados de un archivo
+== Estados de un archivo
 
 #figure(
   image("assets/lifecycle.png", height: 60%),
@@ -275,7 +282,7 @@ print("Hola mundo")
 #bash_snippet("11_modify_file_06_out.txt")
 #pagebreak()
 
-/ #code("git diff"): muestra la diferencia entre el último commit y el working directory.
+/ #code("git diff"): muestra la diferencia entre el stage y el working directory.
 / #code("git diff --cached"): muestra la diferencia entre el último commit y el stage (es decir, los cambios que se agregarían al proximo commit si se ejecuta #code("git commit")).
 
 Más información: https://git-scm.com/docs/git-diff
@@ -405,42 +412,42 @@ Para incorporar los cambios de la rama testing a la master, primero hay que para
 Una vez parados en master, se usa el comando #code("git merge testing") para traer los cambios de la rama testing a la rama master:
 #bash_snippet("13_handle_branches_06_out.txt")
 
-== Merge con conflictos
+// == Merge con conflictos
 
-#bash_snippet("13_handle_merge_conflict_00_out.txt")
+// #bash_snippet("13_handle_merge_conflict_00_out.txt")
 
-#pagebreak()
-#bash_snippet("13_handle_merge_conflict_01_out.txt")
+// #pagebreak()
+// #bash_snippet("13_handle_merge_conflict_01_out.txt")
 
-#pagebreak()
-#bash_snippet("13_handle_merge_conflict_02_out.txt")
+// #pagebreak()
+// #bash_snippet("13_handle_merge_conflict_02_out.txt")
 
-#pagebreak()
-#bash_snippet("13_handle_merge_conflict_03_out.txt")
+// #pagebreak()
+// #bash_snippet("13_handle_merge_conflict_03_out.txt")
 
-#pagebreak()
-#bash_snippet("13_handle_merge_conflict_04_out.txt")
+// #pagebreak()
+// #bash_snippet("13_handle_merge_conflict_04_out.txt")
 
-#pagebreak()
-#bash_snippet("13_handle_merge_conflict_05_out.txt")
+// #pagebreak()
+// #bash_snippet("13_handle_merge_conflict_05_out.txt")
 
-#pagebreak()
-#bash_snippet("13_handle_merge_conflict_06_out.txt")
+// #pagebreak()
+// #bash_snippet("13_handle_merge_conflict_06_out.txt")
 
-#pagebreak()
-#bash_snippet("13_handle_merge_conflict_07_out.txt")
+// #pagebreak()
+// #bash_snippet("13_handle_merge_conflict_07_out.txt")
 
-#pagebreak()
-#bash_snippet("13_handle_merge_conflict_08_out.txt")
+// #pagebreak()
+// #bash_snippet("13_handle_merge_conflict_08_out.txt")
 
-= Trabajo con repositorio remoto
-== Clonar un repositorio remoto existente
+// = Trabajo con repositorio remoto
+// == Clonar un repositorio remoto existente
 
-// #bash_snippet("00_clone_existing_repo_0_out.txt")
-#todo[CLONAR REPO REMOTO]
+// // #bash_snippet("00_clone_existing_repo_0_out.txt")
+// #todo[CLONAR REPO REMOTO]
 
-== Importar nuevos cambios del repositorio remoto
+// == Importar nuevos cambios del repositorio remoto
 
-== Mandar cambios locales al repositorio remoto
+// == Mandar cambios locales al repositorio remoto
 
-= Submódulos
+// = Submódulos
