@@ -1,9 +1,12 @@
 # ==== CONFIG ====
 SCRIPTS_DIR="./scripts"
 OUT_DIR="$SCRIPTS_DIR/split_scripts"
+PRESENTATION_DIR="./presentation"
+PRESENTATION_SNIPPETS_DIR="$PRESENTATION_DIR/bash_snippets"
 # =================
 rm -rf $OUT_DIR/*
 mkdir -p "$OUT_DIR"
+mkdir -p "$PRESENTATION_SNIPPETS_DIR"
 
 shopt -s nullglob
 
@@ -38,7 +41,7 @@ do
         outfile="${eachfile%.sh}"_out.txt
         outfile="${outfile##*/}"
         echo $outfile
-        outfile=presentation/bash_snippets/$outfile
+        outfile="$PRESENTATION_SNIPPETS_DIR/$outfile"
         script -q "$outfile" -c "PS4='\[\e[1;92m\]malu@balseiro:\[\e[1;34m\]\$(p=\$(pwd); p=$rootdir\${p##*$rootdir}; echo \$p)\[\e[0m\]$ ' bash -x \"$eachfile\""
         sed -i 1d $outfile
     fi
@@ -51,7 +54,7 @@ do
     if [[ $(basename "$eachfile") != 0* ]]; then
         outfile="${eachfile%.sh}"_out.txt
         outfile="${outfile##*/}"
-        outfile=../presentation/bash_snippets/$outfile
+        outfile=../$PRESENTATION_SNIPPETS_DIR/$outfile
         script -q "$outfile" -c "PS4='\[\e[1;92m\]malu@balseiro:\[\e[1;34m\]\$(p=\$(pwd); p=$rootdir\${p##*$rootdir}; echo \$p)\[\e[0m\]$ ' bash -x \"../$eachfile\""
         sed -i 1d $outfile
     fi
