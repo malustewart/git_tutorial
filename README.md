@@ -1,8 +1,11 @@
 # Tutorial de git
 
+Basado en el [Pro Git book de Scott Chacon y Ben Straub](https://git-scm.com/book/en/v2)
+
+
 ## Requisitos
 
-El tutorial fue desarrollado en y testeado en Windows 10 con wsl (Ubuntu). Alternativamente, debería poder seguirse en una distribución de Linux basada en debian.
+El tutorial fue desarrollado y testeado en Windows 10 con wsl (Ubuntu). Alternativamente, debería poder seguirse en cualquier sistema operativo que soporte git y vscode, con muy leves modificaciones.
 
 Antes de comenzar, se debe instalar:
  - git
