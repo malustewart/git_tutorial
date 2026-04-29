@@ -25,4 +25,4 @@ git status -s
 
 ###
 
-git log
+git --no-pager log

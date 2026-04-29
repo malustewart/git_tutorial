@@ -34,3 +34,20 @@ git status -s
 
 git --no-pager diff
 git --no-pager diff --cached
+
+
+###
+
+git commit -m "Added main.py with hello world"
+git status
+
+###
+
+git --no-pager diff
+git --no-pager diff --cached
+
+
+###
+git status
+git checkout -- main.py
+git status -s
