@@ -5,6 +5,8 @@
 #import "@preview/showybox:2.0.4": showybox
 #import "@preview/codelst:2.0.2": sourcecode
 
+#set heading(numbering: "1.a")
+
 #show: university-theme.with(
     align: horizon,
     config-info(
@@ -15,6 +17,10 @@
       institution: [Instituto Balseiro],
       contact: "maria.stewart@ib.edu.ar",
       // logo: emoji.school,
+    ),
+    config-common(
+      new-section-slide-fn: new-section-slide.with(numbered: true,),
+      // new-subsection-slide-fn: new-section-slide.with(level: 2, numbered: false),
     ),
   )
 
@@ -164,6 +170,17 @@ _Tutorial basado en https://git-scm.com/book/en/v2/ _
 == Inicializar un repositorio nuevo
 #bash_snippet("01_create_new_repo_00_out.txt")
 
+#pagebreak()
+
+#figure(
+  image("assets/capturas_vscode/01_create_new_repo_A.PNG", height: 80%),
+)
+
+#figure(
+  image("assets/capturas_vscode/01_create_new_repo_B.PNG", height: 80%),
+)
+
+
 == Agregar archivos nuevos al repositorio
 
 #figure(
@@ -191,15 +208,44 @@ Luego, para verificar que se creó correctamente, correr:
 #bash_snippet("10_add_file_to_repo_01_out.txt")
 #pagebreak()
 #bash_snippet("10_add_file_to_repo_02_out.txt", expl: [git detecta un nuevo archivo que no tiene registrado ("Untracked")])
+
+#pagebreak()
+#figure(
+  image("assets/capturas_vscode/10_add_file_to_repo_A_untracked.PNG", height: 100%),
+)
+
 #pagebreak()
 #bash_snippet("10_add_file_to_repo_03_out.txt", expl: [Al hacer #code("git add README.md"), el nuevo archivo README.md pasa al área de stage.])
+#pagebreak()
+#figure(
+  image("assets/capturas_vscode/10_add_file_to_repo_B_about_to_stage.PNG", height: 100%),
+)
+#pagebreak()
+#figure(
+  image("assets/capturas_vscode/10_add_file_to_repo_C_staged.PNG", height: 100%),
+)
+
+
+
 #pagebreak()
 Al hacer #code("git commit -m \'Added README\'"), el nuevo archivo es "commiteado" (o registrado) en un nuevo commit del repositorio.
 #bash_snippet("10_add_file_to_repo_04_out.txt", expl: [ El archivo pasa de "staged" a "unmodified".])
 
+
+#pagebreak()
+#figure(
+  grid(columns: (1fr,1fr), align: horizon)[#image("assets/capturas_vscode/10_add_file_to_repo_D_about_to_commit.PNG", height: 100%)][#image("assets/capturas_vscode/10_add_file_to_repo_E_commited.PNG", height: 100%)]
+)
+
 #pagebreak()
 Para ver el commit recién creado, ejecutar #code("git log"):
 #bash_snippet("10_add_file_to_repo_05_out.txt", expl: [El comando #code("git log") muestra el hisorial de commits.])
+
+#pagebreak()
+#figure(
+  image("assets/capturas_vscode/10_add_file_to_repo_F_git_graph.PNG", width: 90%),
+)
+
 
 == Agregar cambios de archivos existentes al repositorio
 
@@ -228,9 +274,26 @@ Repo mantainer: Malu
 
 #pagebreak()
 #bash_snippet("11_modify_file_01_out.txt", )
+
+#pagebreak()
+#figure(
+  image("assets/capturas_vscode/11_modify_file_A_modifies_state.PNG", height: 80%)
+)
+
+#pagebreak()
+#figure(
+  image("assets/capturas_vscode/11_modify_file_B_diff_view.PNG", width: 100%)
+)
+
+
 #pagebreak()
 #bash_snippet("11_modify_file_02_out.txt")
+
 #pagebreak()
+#figure(
+  image("assets/capturas_vscode/11_modify_file_C_git_graph_after_commit.PNG", height: 80%)
+)
+
 
 === ¿Qué pasa si se modifica un archivo que está en stage?
 
@@ -289,17 +352,23 @@ Más información: https://git-scm.com/docs/git-diff
 
 #pagebreak()
 #bash_snippet("11_modify_file_07_out.txt", expl:[
-  #code("git diff"): último commit vs. working directory
+  #code("git diff"): stage vs. working directory
 
   #code("git diff --cached"): último commit vs. stage
 ])
+
+#pagebreak()
+
+#figure(
+  image("assets/capturas_vscode/11_modify_file_D_git_diff_index_vs_working_dir.PNG", width: 80%),
+)
 
 #pagebreak()
 #bash_snippet("11_modify_file_08_out.txt", expl: [Al hacer un commit de los cambios en stage, no se modifica el estado del working directory])
 
 #pagebreak()
 #bash_snippet("11_modify_file_09_out.txt", expl:[
-  #code("git diff"): último commit vs. working directory
+  #code("git diff"): stage vs. working directory
 
   #code("git diff --cached"): último commit vs. stage]
 )
@@ -308,12 +377,16 @@ Más información: https://git-scm.com/docs/git-diff
 #caution-block[Al ejecutar #code("git status"), suele aparecer el siguiente mensaje:
 
  > #code("(use \"git checkout -- <file>...\" to discard changes in working directory)")
-
 #align(center)[#box(fill: red, inset: 10pt)[#text(weight:"bold", fill: white)[ESTE COMANDO ELIMINA #underline[PERMANENTEMENTE] LOS CAMBIOS DEL WORKING DIRECTORY]]]
 
 Antes de ejecutarlo, estar 100% seguro que se quieren descartar los cambios del archivo
 
 ]
+
+#pagebreak()
+#figure(
+  image("assets/capturas_vscode/11_modify_file_E_discard_warning.PNG", height: 80%),
+)
 
 #pagebreak()
 #bash_snippet("11_modify_file_10_out.txt")
@@ -328,6 +401,12 @@ _Para más información: https://git-scm.com/docs/git-log _
 
 #pagebreak()
 #bash_snippet("12_view_commit_history_00_out.txt")
+
+#pagebreak()
+#figure(
+  image("assets/capturas_vscode/11_modify_file_F_second_commit.PNG", height: 80%),
+)
+
 
 #pagebreak()
 #bash_snippet("12_view_commit_history_01_out.txt")
@@ -355,27 +434,80 @@ Regla para memorizar: A DOG
 == Una rama simple y merge sin conflictos
 
 #figure(
-  image("assets/branching.svg", height: 70%)
+  image("assets/branching.svg", height: 70%),
+  caption: [Ejemplo de estructura de versiones de un repositorio.]
 )
 
 #pagebreak()
+#grid(columns: (2fr, 1fr))[
+#figure(
+  image("assets/branching.svg", height: 70%)
+)][
+  Si tengo un historial de versiones así (por ej.: con muchas ramas), cuando agrego un commit, ¿dónde se agrega?
+]
 
-#bash_snippet("13_handle_branches_00_out.txt", expl: "Se crea una nueva rama llamada testing, pero el repositorio local apunta a la rama master.")
+#pagebreak()
+
+#emph("HEAD"): 
+ - Puntero que apunta a la rama#footnote([_Es posible apuntar a un commit específico y no una rama. En ese caso, git marca su estado como "detached head". No vamos a ver ese caso de uso._]) donde estamos parados actualmente.
+ - Al hacer un commit, se agrega luego del último commit de la rama a la que apunta HEAD.
+
+#pagebreak()
+
+El comando #code("git log --decorate") permite visualizar a que rama apunta HEAD. Por ejemplo:
+#bash_snippet("12_view_commit_history_04_out.txt")
+
+La indicación #code("(HEAD->master)") indica que ese commit es el último commit de la rama master, y además, que HEAD apunta a esa rama.
+
+#pagebreak()
+En Git Graph de vscode, la rama a la cual apunta HEAD aparece en negrita:
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_AA_check_HEAD.PNG", height: 60%)
+)
+(_Nota: Cuando se agreguen más ramas se va a ver mejor la diferencia!_)
+
+#pagebreak()
+Próximo objetivo: crear una rama nueva llamada _testing_, agregarle cambios, y luego traer esos cambios a la rama master.
+
+#pagebreak()
+
+#bash_snippet("13_handle_branches_00_out.txt", expl: "Se crea una nueva rama llamada testing, pero el puntero HEAD apunta a la rama master.")
 
 #figure(
   image("assets/head_to_master.png", height: 70%)
 )
+
+
+#pagebreak()
+#bash_snippet("13_handle_branches_01_out.txt", expl: [Con el comando #code("git checkout testing"), el puntero HEAD pasa a apuntar a la rama testing.])
+
+_Nota: Para cambiar de rama, también se puede ejecutar el comando:_
+
+_#code("git switch testing")_
 
 #figure(
   image("assets/head_to_testing.png", height: 70%)
 )
 
 #pagebreak()
-#bash_snippet("13_handle_branches_01_out.txt", expl: [Con el comando #code("git checkout testing"), el repositorio local pasa a apuntar a la rama testing.])
+Para crear una rama desde vscode:
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_A_create_new_branch.PNG", height: 80%)
+)
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_A_create_new_branch_bis.PNG")
+)
 
-_Nota: Para cambiar de rama, también se puede ejecutar el comando:_
+#grid(columns: (2fr,1fr), column-gutter: 10pt)[
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_B_now_im_in_testing.PNG", width: 100%)
+)][La interfaz de vscode muestra que ahora HEAD esta apuntando a la rama testing.]
 
-_#code("git switch testing")_
+#grid(columns: (2fr,1fr), column-gutter: 10pt)[
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_B_now_im_in_testing.PNG", width: 100%)
+)][_Nota: Observar que no fue necesario cambiar HEAD de master a testing, sino que al crear la rama nueva, vscode automáticamente mueve HEAD a la rama recién creada._]
+
 
 // #pagebreak()
 // #bash_snippet("13_handle_branches_02_out.txt")
@@ -393,6 +525,7 @@ tc.verifyEqual(1+1, 2);
 ]
 
 #pagebreak()
+Hacer un commit con el nuevo archivo:
 #bash_snippet("13_handle_branches_03_out.txt")
 
 #pagebreak()
@@ -404,41 +537,81 @@ Después de hacer un commit en testing, las ramas testing y master ya no apuntan
 #pagebreak()
 #bash_snippet("13_handle_branches_04_out.txt")
 
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_C_new_commit_in_testing.PNG")
+)
+
 #pagebreak()
 Para incorporar los cambios de la rama testing a la master, primero hay que pararse en la rama master:
+#figure(
+  image("assets/head-to-master-about-to-merge-testing.png", height: 70%)
+)
+
 #bash_snippet("13_handle_branches_05_out.txt")
+
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_D_checkout_master.PNG")
+)
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_E_checkout_master_v2.PNG")
+)
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_F_checkout_master_v3.PNG")
+)
 
 #pagebreak()
 Una vez parados en master, se usa el comando #code("git merge testing") para traer los cambios de la rama testing a la rama master:
+
+#figure(
+  image("assets/merge-testing-to-master.png", height: 70%)
+)
+
+
 #bash_snippet("13_handle_branches_06_out.txt")
 
-// == Merge con conflictos
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_G_merge_testing_A.PNG")
+)
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_H_merge_testing_B.PNG")
+)
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_I_merge_testing_C.PNG")
+)
+#figure(
+  image("assets/capturas_vscode/13_handle_branches_J_merge_testing_D.PNG")
+)
 
-// #bash_snippet("13_handle_merge_conflict_00_out.txt")
 
-// #pagebreak()
-// #bash_snippet("13_handle_merge_conflict_01_out.txt")
+== Merge con conflictos
 
-// #pagebreak()
-// #bash_snippet("13_handle_merge_conflict_02_out.txt")
+Crear una nueva rama llamada "iss53"
 
-// #pagebreak()
-// #bash_snippet("13_handle_merge_conflict_03_out.txt")
+#bash_snippet("13_handle_merge_conflict_00_out.txt", expl: [El comando #code("git checkout -b <nombre de rama>") permite crear la rama y hacer checkout de la rama nueva en un solo comando.])
 
-// #pagebreak()
-// #bash_snippet("13_handle_merge_conflict_04_out.txt")
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_01_out.txt")
 
-// #pagebreak()
-// #bash_snippet("13_handle_merge_conflict_05_out.txt")
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_02_out.txt")
 
-// #pagebreak()
-// #bash_snippet("13_handle_merge_conflict_06_out.txt")
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_03_out.txt")
 
-// #pagebreak()
-// #bash_snippet("13_handle_merge_conflict_07_out.txt")
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_04_out.txt")
 
-// #pagebreak()
-// #bash_snippet("13_handle_merge_conflict_08_out.txt")
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_05_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_06_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_07_out.txt")
+
+#pagebreak()
+#bash_snippet("13_handle_merge_conflict_08_out.txt")
 
 // = Trabajo con repositorio remoto
 // == Clonar un repositorio remoto existente

@@ -3,4 +3,7 @@ scripts/split_scripts/*
 out/*
 *.pdf
 
+presentation/bash_snippets/*
+0*.md
+
 
