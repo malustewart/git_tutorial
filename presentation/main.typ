@@ -587,31 +587,31 @@ Una vez parados en master, se usa el comando #code("git merge testing") para tra
 
 Crear una nueva rama llamada "iss53"
 
-#bash_snippet("13_handle_merge_conflict_00_out.txt", expl: [El comando #code("git checkout -b <nombre de rama>") permite crear la rama y hacer checkout de la rama nueva en un solo comando.])
+#bash_snippet("14_handle_merge_conflict_00_out.txt", expl: [El comando #code("git checkout -b <nombre de rama>") permite crear la rama y hacer checkout de la rama nueva en un solo comando.])
 
 #pagebreak()
-#bash_snippet("13_handle_merge_conflict_01_out.txt")
+#bash_snippet("14_handle_merge_conflict_01_out.txt")
 
 #pagebreak()
-#bash_snippet("13_handle_merge_conflict_02_out.txt")
+#bash_snippet("14_handle_merge_conflict_02_out.txt")
 
 #pagebreak()
-#bash_snippet("13_handle_merge_conflict_03_out.txt")
+#bash_snippet("14_handle_merge_conflict_03_out.txt")
 
 #pagebreak()
-#bash_snippet("13_handle_merge_conflict_04_out.txt")
+#bash_snippet("14_handle_merge_conflict_04_out.txt")
 
 #pagebreak()
-#bash_snippet("13_handle_merge_conflict_05_out.txt")
+#bash_snippet("14_handle_merge_conflict_05_out.txt")
 
 #pagebreak()
-#bash_snippet("13_handle_merge_conflict_06_out.txt")
+#bash_snippet("14_handle_merge_conflict_06_out.txt")
 
 #pagebreak()
-#bash_snippet("13_handle_merge_conflict_07_out.txt")
+#bash_snippet("14_handle_merge_conflict_07_out.txt")
 
 #pagebreak()
-#bash_snippet("13_handle_merge_conflict_08_out.txt")
+#bash_snippet("14_handle_merge_conflict_08_out.txt")
 
 // = Trabajo con repositorio remoto
 // == Clonar un repositorio remoto existente
