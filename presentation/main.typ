@@ -7,6 +7,8 @@
 
 #set heading(numbering: "1.a")
 
+#let handout = sys.inputs.at("handout", default: none) == "true"
+
 #show: university-theme.with(
     align: horizon,
     config-info(
@@ -21,6 +23,7 @@
     config-common(
       new-section-slide-fn: new-section-slide.with(numbered: true,),
       // new-subsection-slide-fn: new-section-slide.with(level: 2, numbered: false),
+      handout: handout,
     ),
   )
 
@@ -70,9 +73,8 @@
     footer-color: orange.lighten(80%)
   ),
 )[
-  #sourcecode(lang: lang)[
-    #code
-  ]
+  #sourcecode(numbers-align: right+top, lang: lang)[
+    #code]
 ]
 
 
@@ -80,6 +82,7 @@
 
 
 _Tutorial basado en https://git-scm.com/book/en/v2/ _
+
 
 = ¿Qué es git?
 
@@ -582,36 +585,268 @@ Una vez parados en master, se usa el comando #code("git merge testing") para tra
   image("assets/capturas_vscode/13_handle_branches_J_merge_testing_D.PNG")
 )
 
+#pagebreak()
+Repasemos de lo sucedido en esta última sección:
+#pause
++ Parados en master (_es decir, con HEAD apuntando a master_), creamos una nueva rama llamada testing.
+#pause
++ Nos movimos a la nueva rama testing (_es decir, reapuntamos HEAD de master a testing_).
+#pause
++ Agregamos cambios y los guardamos en commits en nueva rama testing.
+#pause
++ Volvimos a master.
+#pause
++ Trajimos los cambios previamente introducidos en la rama testing (_es decir, *hicimos un merge de testing a master*_).
 
 == Merge con conflictos
 
+Para el caso anterior, hicimos el merge en un solo paso, ya que no hubo _conflictos_.
+
+Pero... _*¿Qué son los conflictos?*_
+
+#pagebreak()
+
+#grid(columns: (1.8fr,1fr), column-gutter: 10pt)[
+#figure(
+  stack[
+  #image("assets/basic-merging-1.png", width: 80%)
+  #image("assets/basic-merging-2.png", width: 90%)],
+  caption: [
+    Ejemplo de un merge con historia bifurcada.
+  ],
+)][Al hacer un merge de iss53 a master, git:
++ Busca el commit "ancestro común". 
++ Busca los cambios de cada rama _después_ del ancestro común.
++ *_Intenta_* aplicar todos estos cambios al ancestro común. 
+]
+
+#pagebreak()
+
+¿Qué pasa si los cambios de cada rama después del ancestro común _"se contradicen"_?
+
+Por ejemplo, en el siguiente árbol, si C4 introduce un cambio que _"choca"_ con un cambio introducido en C3, qué queda en C6?
+#figure(
+image("assets/basic-merging-2.png", height: 40%)
+)
+Ahí tenemos un *_conflicto de merge_*.
+
+#pagebreak()
+
+Cuando git detecta un conflicto de merge entre los cambios de las dos ramas, nos delega a nosotros, los usuarios de git, a resolver el conflicto a mano. #pause
+
+En otras palabras: git hace el merge lo mejor que puede de forma automática. Si eso no alcanza, nos delega el trabajo restante a nosotros.
+
+#pagebreak()
+Ejemplo de conflicto de merge:
+#file("README.md", lang:"markdown")[```
+<<<<<<< HEAD
+print('Hola mundo!')
+=======
+print('Hello world')
+>>>>>>> iss53
+```]
+
+En este ejemplo, git nos indica que esta línea fue modificada en las dos ramas y no sabe cómo unir las dos versiones, así que debemos hacerlo nosotros.
+
+#pagebreak()
+
+Para hacer un merge que tenga un conflicto y resolverlo, vamos a:
+#pause
++ Crear dos ramas (hotfix y iss53) a partir de master.
+#pause
++ En ambas ramas, hacer y commitear cambios diferentes a la misma línea del mismo archivo.
+#pause
++ Hacer merge de ambas ramas a master:
+  + El primer merge (hotfix) debería hacerse automáticamente (sin conflictos).
+  + El segundo merge (iss53) debería requerir resolver conflictos manualmente.
+
+#pagebreak()
+Situación: estamos desarrollando una aplicación en nuestro repositorio. El script #code("main.py") es el encargado de darle la bienvenida al usuario.
+Hasta ahora, en master, tenemos:
+
+#file("main.py", lang:"python")[```
+print("Hola mundo")
+```]
+
+#pagebreak()
+
+Abrimos nuestro sistema de tickets/issues (por ej.: GitHub), y vemos que nos asignaron el siguiente issue:
+#file("Issue 53 (@malu)", lang: "markdown")[``` # Issue 53
+
+## Descripción:
+Traducir todo el texto que lee el usuario a inglés.
+
+## Duración estimada:
+1 mes```]
+
+#pagebreak()
+
+Como somos grandes desarrolladores que siguen las buenas prácticas de programación, sabemos que para cada nueva feature del proyecto hay que:
++ Hacer una nueva rama.
++ Desarrollar la nueva feature en la nueva rama.
++ Una vez lista, hacer merge de la rama de la feature a una rama principal.
+
+#pagebreak()
 Crear una nueva rama llamada "iss53"
 
 #bash_snippet("14_handle_merge_conflict_00_out.txt", expl: [El comando #code("git checkout -b <nombre de rama>") permite crear la rama y hacer checkout de la rama nueva en un solo comando.])
 
 #pagebreak()
-#bash_snippet("14_handle_merge_conflict_01_out.txt")
+// #bash_snippet("14_handle_merge_conflict_01_out.txt")
+#emph-block[
+  *Paso manual:*
+  - Modificar el archivo #code("main.py"): :
+
+#file("main.py", lang:"python")[```
+print('Hello Earth')
+```]
+]
 
 #pagebreak()
+Hacer un nuevo commit con los cambios de traducción:
 #bash_snippet("14_handle_merge_conflict_02_out.txt")
 
-#pagebreak()
-#bash_snippet("14_handle_merge_conflict_03_out.txt")
+Una vez lista la feature, nos tomamos un descanso mientras esperamos que otro desarrollador revise los cambios antes de hacer merge (es decir, que haga de revisor).
 
 #pagebreak()
-#bash_snippet("14_handle_merge_conflict_04_out.txt")
+En el medio de nuestro merecido descanso, nos llega un mail marcado del project manager marcado como URGENTE que dice:
+
+#file("From:ProjectManager@company.com")[```
+URGENTE:
+Nuestros usuarios dicen que el saludo que les da nuestra aplicación es muy poco feliz!!
+Hacelo más feliz ya mismo!!!
+Lo necesitamos para ayer!!!!!
+```]
 
 #pagebreak()
+Viendo la urgencia de la situación, ponemos manos a la obra instantáneamente:#footnote[#text(size: 6pt)[Por más que él mismo insiste en que todos los cambios se piden a través de issues y no por mail, pero sabes elegir tus batallas.]]
+#bash_snippet("14_handle_merge_conflict_03_out.txt", expl: [Creamos una nueva rama llamada "hotfix" a partir de la rama master, ya que master tiene la última versión "estable" de nuestra aplicación.])
+
+#pagebreak()
+// #bash_snippet("14_handle_merge_conflict_04_out.txt")
+#emph-block[
+  *Paso manual:*
+  - Modificar el archivo #code("main.py"): :
+
+#file("main.py", lang:"python")[```
+print('Hola mundo!')
+```]
+]
+
+#pagebreak()
+Hacer commit de las modificaciones del archivo #code("main.py"):
 #bash_snippet("14_handle_merge_conflict_05_out.txt")
 
 #pagebreak()
-#bash_snippet("14_handle_merge_conflict_06_out.txt")
+Dada la urgencia del pedido, con prioridad incorporamos el cambio de la rama hotfix a la rama master a través de un merge:
+#bash_snippet("14_handle_merge_conflict_06_out.txt", expl: "En este caso, git puede hacer el merge automáticamente ya que no detecta conflictos.")
+
+Listo! La rama master, que es donde tenemos las versiones que compartimos con los usuarios, ya tiene los cambios agregados.
+
+Ya podemos seguir con el resto de nuestras tareas.
 
 #pagebreak()
+
+Volvemos a trabajar en el issue 53, que nos asignó previamente el project manager. Para ver el trabajo que ya habíamos hecho, vamos a la rama iss53:
+
 #bash_snippet("14_handle_merge_conflict_07_out.txt")
 
+
 #pagebreak()
-#bash_snippet("14_handle_merge_conflict_08_out.txt")
+
+// #bash_snippet("14_handle_merge_conflict_08_out.txt")
+
+Vemos que tenemos un pequeño error: tradujimos "mundo" como "Earth", cuando en realidad "world" es más apropiado. No hay problema! Lo corregimos con un nuevo commit:
+
+#emph-block[
+  *Paso manual:*
+  - Modificar el archivo #code("main.py"): :
+
+#file("main.py", lang:"python")[```
+print('Hello world')
+```]
+]
+
+
+#pagebreak()
+#bash_snippet("14_handle_merge_conflict_09_out.txt")
+
+#pagebreak()
+#alternatives[Luego de revisar que la traducción esté lista, nos paramos en master e intentamos traer los cambios de la rama iss53 haciendo un merge:][El mensaje después de ejecutar #code("git merge") indica que hubo conflictos. También se ve cuando hacemos #code("git status"):]
+#bash_snippet("14_handle_merge_conflict_10_out.txt")
+
+#pagebreak()
+
+Inspeccionamos cuál es el conflicto:
+
+#bash_snippet("14_handle_merge_conflict_11_out.txt")
+
+Al ver esto queda claro: como modificamos la misma línea del mismo archivo en ambas ramas, git no sabe "automáticamente" con cuál cambio quedarse, por lo que nos delega a nosotros la tarea de unir los cambios a mano.
+
+#pagebreak()
+
+Notar que en este caso, las dos ramas incorporaron cambios deseados (una tradujo el mensaje, la otra lo hizo más feliz)
+#bash_snippet("14_handle_merge_conflict_11_out.txt")
+
+
+#pagebreak()
+// #bash_snippet("14_handle_merge_conflict_12_out.txt")
+Elegimos a mano como unir las dos ramas únicamente donde hubo conflicto:
+#emph-block[
+  *Paso manual:*
+  - Modificar el archivo #code("main.py"): :
+
+#file("main.py", lang:"python")[```
+print('Hello world!')
+```]
+]
+
+
+#pagebreak()
+#bash_snippet("14_handle_merge_conflict_13_out.txt", expl: [#code("git status") nos indica que estamos en el medio de un merge que se pausó por conflictos.])
+
+#pagebreak()
+Pasamos nuestro el fix del conflicto a stage:
+#bash_snippet("14_handle_merge_conflict_14_out.txt", expl: [#code("git status") nos indica que ya solucionamos los conflictos pero que nos falta hacer un commit para terminar definitivamente el merge.])
+
+#pagebreak()
+#bash_snippet("14_handle_merge_conflict_15_out.txt")
+
+#pagebreak()
+Felicidades!! Ya hicimos nuestro primer merge con resolución de conflictos
+#pagebreak()
+Para ver como queda el gráfico del repositorio:
+#bash_snippet("14_handle_merge_conflict_16_out.txt")
+
+
+#pagebreak()
+
+En este momento, tenemos 4 ramas en nuestro repositorio:
+- master
+- testing
+- iss53
+- hotfix
+
+#pagebreak()
+Decidimos hacer una pequeña limpieza:
+- master: rama principal, se queda
+- testing: rama donde trabajo para agregar tests. Quiero que se quede, pero debo actualizarle los cambios que le agregue a master.
+- iss53 y hotfix: ya cumplieron su función, así que las elimino (no quiere decir que elimine los cambios que introdujeron! Esos ya están incorporados en master.)
+
+#pagebreak()
+Para llevar los nuevos cambios de master a testing:
+#bash_snippet("14_handle_merge_conflict_17_out.txt")
+
+#pagebreak()
+#bash_snippet("14_handle_merge_conflict_18_out.txt")
+
+#pagebreak()
+Para eliminar las ramas que no uso más:
+#bash_snippet("14_handle_merge_conflict_19_out.txt")
+
+#pagebreak()
+#bash_snippet("14_handle_merge_conflict_20_out.txt")
+
 
 // = Trabajo con repositorio remoto
 // == Clonar un repositorio remoto existente

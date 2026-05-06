@@ -1,0 +1,1 @@
+typst compile ./presentation/main.typ ./presentation/git_tutorial_presentation_handout.pdf --input handout=true
