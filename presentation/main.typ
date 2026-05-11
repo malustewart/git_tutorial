@@ -600,6 +600,7 @@ Repasemos de lo sucedido en esta última sección:
 
 == Merge con conflictos
 
+
 Para el caso anterior, hicimos el merge en un solo paso, ya que no hubo _conflictos_.
 
 Pero... _*¿Qué son los conflictos?*_
@@ -649,7 +650,8 @@ print('Hello world')
 En este ejemplo, git nos indica que esta línea fue modificada en las dos ramas y no sabe cómo unir las dos versiones, así que debemos hacerlo nosotros.
 
 #pagebreak()
-
+=== Preparación para el merge con conflicto
+#pagebreak()
 Para hacer un merge que tenga un conflicto y resolverlo, vamos a:
 #pause
 + Crear dos ramas (hotfix y iss53) a partir de master.
@@ -687,9 +689,33 @@ Como somos grandes desarrolladores que siguen las buenas prácticas de programac
 + Una vez lista, hacer merge de la rama de la feature a una rama principal.
 
 #pagebreak()
-Crear una nueva rama llamada "iss53"
+Crear una nueva rama llamada "iss53". Desde la línea de comandos:
 
 #bash_snippet("14_handle_merge_conflict_00_out.txt", expl: [El comando #code("git checkout -b <nombre de rama>") permite crear la rama y hacer checkout de la rama nueva en un solo comando.])
+
+#pagebreak()
+
+Si queremos crear la nueva rama iss53 desde vscode:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_A_new_branch.PNG", height: 80%),
+)
+
+#pagebreak()
+
+En el menú que se despliega en la parte superior de la ventana, ingresamos el nombre de nuestra nueva rama y apretamos enter:
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_B_new_branch.PNG", width: 80%),
+)
+
+#pagebreak()
+
+Una vez creada la rama, vemos en la vista de Git Graph que apareció nuestra nueva rama iss53, y que está en negrita, lo que indica que es la rama a la que apunta HEAD (es decir, la rama donde actualmente "estamos parados"):
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_C_new_branch.PNG", height: 60%),
+)
+
 
 #pagebreak()
 // #bash_snippet("14_handle_merge_conflict_01_out.txt")
@@ -703,9 +729,36 @@ print('Hello Earth')
 ]
 
 #pagebreak()
-Hacer un nuevo commit con los cambios de traducción:
+Hacer un nuevo commit con los cambios de traducción. Para hacerlo desde línea de comando:
 #bash_snippet("14_handle_merge_conflict_02_out.txt")
 
+
+#pagebreak()
+Si queremos hacer el nuevo commit desde la interfaz gráfica de vscode, primero pasamos los cambios a la zona de stage, escribimos el mensaje de commit y por último hacemos click en _Commit_:
+
+#grid(columns: (1fr,1fr))[
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_D_stage_changes.PNG", height: 60%),
+)][
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_E_commit_changes.PNG", height: 60%),
+)]
+#pagebreak()
+Nuestro nuevo commit ya aparece en la vista de Git Graph. _Bonus: para ver los cambios específicos de un commit desde git graph, hacer click en el commit:_
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_F_iss53_first_commit_git_graph.PNG", height: 60%),
+)
+_Nos aparecerá información sobre el commit, incluido el nombre de los archivos que fueron modificados. Para ver los cambios de un archivo específico, hacer clic en el nombre del archivo en la columna derecha:_
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_G_iss53_first_commit_click_to_view_diff.PNG", height: 60%),
+)
+_Se abrirá una nueva vista que muestre los cambios incluidos en ese commit para el archivo seleccionado:_
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_H_iss53_first_commit_diff.PNG", height: 60%),
+)
+
+
+#pagebreak()
 Una vez lista la feature, nos tomamos un descanso mientras esperamos que otro desarrollador revise los cambios antes de hacer merge (es decir, que haga de revisor).
 
 #pagebreak()
@@ -720,10 +773,56 @@ Lo necesitamos para ayer!!!!!
 
 #pagebreak()
 Viendo la urgencia de la situación, ponemos manos a la obra instantáneamente:#footnote[#text(size: 6pt)[Por más que él mismo insiste en que todos los cambios se piden a través de issues y no por mail, pero sabes elegir tus batallas.]]
-#bash_snippet("14_handle_merge_conflict_03_out.txt", expl: [Creamos una nueva rama llamada "hotfix" a partir de la rama master, ya que master tiene la última versión "estable" de nuestra aplicación.])
+
+Decidimos crear una rama llamada "hotfix" a partir de la rama master, ya que master tiene la última versión "estable" de nuestra aplicación. 
+
+#pagebreak()
+Para hacerlo desde la línea de comandos:
+#bash_snippet("14_handle_merge_conflict_03_out.txt", expl: [Al hacer checkout de master y luego crear la rama nueva, logramos que la rama nueva parta de master y no de iss53])
+
+#pagebreak()
+Para hacerlo desde vscode, creamos una rama que parta de master (incluso si actualmente estamos en la rama iss53):
+#grid(columns:(2fr,1.5fr), column-gutter: 10pt)[
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_I_create_branch_from_A.PNG", width:100%),
+)][Asegurarse de hacer click en la opcion que dice:
+
+"Create Branch #underline[_*From*_]"
+
+Esto permite crear una rama nueva que se origine en una rama que no sea la que estamos actualmente parados
+]
+#pagebreak()
+
+Seleccionamos la rama master como base de la rama nueva:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_J_create_branch_from_B.PNG", height: 60%),
+)
+#pagebreak()
+En el menú que aparece en la parte superior de la pantalla, ingresamos el nombre de nuestra nueva rama (ennuestro caso, "hotfix" y apretamos Enter):
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_K_create_branch_from_C.PNG", width: 100%),
+)
+
+#pagebreak()
+Listo! Ya creamos una nueva rama llamada hotfix a partir de master:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_L_create_branch_from_D.PNG", height: 40%),
+)
+_Verificar que_
+  - _"hotfix" y "master" estén en la misma línea, es decir, que apunten al mismo commit._
+  - _"Estamos parados" en "hotfix", chequeado que aparezca en negrita en Git Graph._
+
+#pagebreak()
+Si abrimos el archivo #code("main.py"), vamos a notar que no contiene los cambios de traducción que hicimos en la rama iss53, ya que estos cambios no fueron incorporados a master cuando hicimos la nueva rama hotfix:
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_M_main_in_spanish.PNG", width: 100%),
+)
 
 #pagebreak()
 // #bash_snippet("14_handle_merge_conflict_04_out.txt")
+
+Ahora sí, podemos agregar los cambios pedidos:
 #emph-block[
   *Paso manual:*
   - Modificar el archivo #code("main.py"): :
@@ -734,29 +833,122 @@ print('Hola mundo!')
 ]
 
 #pagebreak()
-Hacer commit de las modificaciones del archivo #code("main.py"):
+Hacer commit de las modificaciones del archivo #code("main.py"). 
+
+
+Para hacerlo por línea de comando:
 #bash_snippet("14_handle_merge_conflict_05_out.txt")
 
 #pagebreak()
-Dada la urgencia del pedido, con prioridad incorporamos el cambio de la rama hotfix a la rama master a través de un merge:
-#bash_snippet("14_handle_merge_conflict_06_out.txt", expl: "En este caso, git puede hacer el merge automáticamente ya que no detecta conflictos.")
+Para hacerlo por vscode:
 
-Listo! La rama master, que es donde tenemos las versiones que compartimos con los usuarios, ya tiene los cambios agregados.
+#grid(columns:(1fr, 1fr), column-gutter: 10pt)[
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_N_hotfix_stage.PNG", width: 100%),
+)][
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_O_hotfix_commit.PNG", width: 100%),
+)]
 
-Ya podemos seguir con el resto de nuestras tareas.
+#pagebreak()
+La pestaña git graph muestra claramente como se bifurcaron las ramas hotfix y iss53:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_P_git_graph_after_hotfix_commit.PNG", height: 70%),
+)
+
+#pagebreak()
+Dada la urgencia del pedido, con prioridad incorporamos el cambio de la rama hotfix a la rama master a través de un merge. 
 
 #pagebreak()
 
-Volvemos a trabajar en el issue 53, que nos asignó previamente el project manager. Para ver el trabajo que ya habíamos hecho, vamos a la rama iss53:
+Para hacer merge de hotfix a master por línea de comandos:
+#bash_snippet("14_handle_merge_conflict_06_out.txt", expl: "En este caso, git puede hacer el merge automáticamente ya que no detecta conflictos.")
+
+#pagebreak()
+Para hacer merge de hotfix a master por vscode, primero, apuntamos HEAD a master con un checkout:
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_Q_checkout_master_A.PNG", height: 70%),
+)
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_Q_checkout_master_B.PNG", height: 70%),
+)
+
+#pagebreak()
+
+Ya hicimos checkout de master. Lo verificamos en la pestaña Git Graph, donde la rama master aparece en negrita:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_R_checkout_master_C.PNG", height: 70%),
+)
+
+#pagebreak()
+
+Una vez parados en master, hacemos merge de hotfix para traer sus cambios:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_S_merge_hotfix_A.PNG", height: 70%),
+)
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_T_merge_hotfix_B.PNG", height: 70%),
+)
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_U_merge_hotfix_C.PNG", height: 70%),
+)
+
+Listo el merge de hotfix a master! 
+
+#pagebreak()
+
+Verificamos en la pestaña git graph que se haya hecho el merge correctamente:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_V_merge_hotfix_D.PNG", height: 50%),
+)
+Si todo esta OK, en la rama master vamos a tener commits que no están en la rama iss53.
+
+#pagebreak()
+
+Ya terminamos con el pedido super urgente del hotfix! La rama master, que es donde tenemos las versiones que compartimos con los usuarios, ya tiene los cambios agregados.
+
+Ya podemos seguir con el resto de nuestras tareas... ¿En qué nos habíamos quedado?
+
+#pagebreak()
+
+Volvemos a trabajar en el issue 53 (traducción de castellano a inglés), que nos asignó previamente el project manager. Para ver el trabajo que ya habíamos hecho, vamos a la rama iss53.
+
+Desde la línea de comandos:
 
 #bash_snippet("14_handle_merge_conflict_07_out.txt")
 
+#pagebreak()
+Desde vscode:
+
+#grid(columns:(1fr,1fr), column-gutter: 10pt)[
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_W_checkout_iss53_A.PNG", height: 50%),
+)][
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_X_checkout_iss53_B.PNG", height: 50%),
+)]
 
 #pagebreak()
 
 // #bash_snippet("14_handle_merge_conflict_08_out.txt")
 
-Vemos que tenemos un pequeño error: tradujimos "mundo" como "Earth", cuando en realidad "world" es más apropiado. No hay problema! Lo corregimos con un nuevo commit:
+Para revisar qué fue lo último que agregamos a esta rama, desde la pestaña git graph podemos hacer clic en el mensaje del último commit de la rama iss53, y hacer click en el nombre del archivo #code("main.py") de la columna derecha:
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_Y_check_last_commit.PNG", height: 50%),
+)
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_Z_check_last_commit_B.PNG", height: 50%),
+)
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZA_check_last_commit_C.PNG", height: 50%),
+)
+
+Quien reviso los cambios de esta rama nos marcó un pequeño error: tradujimos "mundo" como "Earth", cuando en realidad "world" es más apropiado. No hay problema! Lo corregimos con un nuevo commit:
 
 #emph-block[
   *Paso manual:*
@@ -769,25 +961,127 @@ print('Hello world')
 
 
 #pagebreak()
+Para agregar el nuevo cambio a la rama iss53 desde la línea de comandos:
 #bash_snippet("14_handle_merge_conflict_09_out.txt")
 
-#pagebreak()
-#alternatives[Luego de revisar que la traducción esté lista, nos paramos en master e intentamos traer los cambios de la rama iss53 haciendo un merge:][El mensaje después de ejecutar #code("git merge") indica que hubo conflictos. También se ve cuando hacemos #code("git status"):]
-#bash_snippet("14_handle_merge_conflict_10_out.txt")
 
 #pagebreak()
+Para agregar el nuevo cambio a la rama iss53 desde vscode:
 
-Inspeccionamos cuál es el conflicto:
+#grid(columns: (1fr,1fr), column-gutter: 10pt)[
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZB_stage_fix.PNG", height: 70%),
+)][
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZC_commit_fix.PNG", height: 70%),
+)]
 
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZD_commit_fix_git_graph.PNG", height: 80%),
+)
+
+
+#pagebreak()
+Luego de revisar que la traducción que hicimos en la rama iss53 esté lista, nos paramos en master e intentamos traer los cambios de la rama iss53 haciendo un merge.
+#pagebreak()
+=== Ejecución del merge con conflicto
+#pagebreak()
+Para hacer el merge desde línea de comandos:
+#bash_snippet("14_handle_merge_conflict_10_out.txt", expl: [El mensaje después de ejecutar #code("git merge") indica que hubo conflictos. También se ve cuando hacemos #code("git status"):])
+
+
+#pagebreak()
+Para hacer el merge desde vscode:
+#pagebreak()
+Primero, hacemos checkout de master:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZE_checkout_master_A.PNG", height: 80%),
+)
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZF_checkout_master_B.PNG", height: 100%),
+)
+
+
+#pagebreak()
+
+Una vez en master, traemos los cambios de iss53 haciendo un merge:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZG_merge_iss53_A.PNG", height: 80%),
+)
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZH_merge_iss53_B.PNG", height: 100%),
+)
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZI_merge_iss53_C.PNG", height: 80%),
+)
+
+Git nos indica que detectó conflictos de merge y que debemos resolverlos nosotros para finalizar el merge:
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZJ_merge_iss53_D.PNG", height: 60%),
+)
+
+
+#pagebreak()
+
+
+Tenemos que inspeccionar cuál fue el conflicto. Para hacerlo desde línea de comandos:
+
+#bash_snippet("14_handle_merge_conflict_11_out.txt")
+
+#pagebreak()
+Git tiene un formato específico para mostrar conflictos:
+#image("assets/capturas_vscode/git_conflict_markers.PNG", width:100%)
+
+#pagebreak()
+Comparemos el formato de git para indicar conflictos con lo que nos apareció a nosotros en el archivo #code("main.py"):
+#image("assets/capturas_vscode/git_conflict_markers.PNG", width:100%)
 #bash_snippet("14_handle_merge_conflict_11_out.txt")
 
 Al ver esto queda claro: como modificamos la misma línea del mismo archivo en ambas ramas, git no sabe "automáticamente" con cuál cambio quedarse, por lo que nos delega a nosotros la tarea de unir los cambios a mano.
 
+
 #pagebreak()
 
-Notar que en este caso, las dos ramas incorporaron cambios deseados (una tradujo el mensaje, la otra lo hizo más feliz)
+Notar que en este caso, *_las dos ramas incorporaron cambios deseados_* (una tradujo el mensaje, la otra lo hizo más feliz)
 #bash_snippet("14_handle_merge_conflict_11_out.txt")
 
+
+#pagebreak()
+Para inspeccionar cuál fue el conflicto desde vscode, en la sección _Merge Changes_ de la pestaña de git, hacer clic en el archivo con conflictos y luego en el botón _Compare Changes_:
+
+
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZK_inspect_conflict_A.PNG", width: 90%),
+)
+
+#pagebreak()
+Nos aparece una visualización del conflicto:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZL_inspect_conflict_B.PNG", width: 90%),
+)
+#pagebreak()
+Esta visualización tiene dos versiones, _inline_ y no _inline_. Para cambiar de versión:
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZM_inspect_conflict_C.PNG", width: 90%),
+)
+
+#pagebreak()
+La versión no _inline_ muestra ambas versiones del archivo una al lado de la otra. La de HEAD a la izquierda, y la de la rama cuyos cambios queremos traer, a la derecha:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZN_inspect_conflict_D.PNG", width: 90%),
+)
+
+#pagebreak()
+Y ahora que entendimos el conflicto, ¿cómo lo resolvemos?
+
+#pagebreak()
+
+Primero vemos como resolverlo por línea de comandos, pero tener en cuenta que suele ser mucho mas sencillo usar herramientas gráficas como las que ofrece vscode.
 
 #pagebreak()
 // #bash_snippet("14_handle_merge_conflict_12_out.txt")
@@ -819,6 +1113,77 @@ Para ver como queda el gráfico del repositorio:
 #bash_snippet("14_handle_merge_conflict_16_out.txt")
 
 
+#pagebreak()
+
+Para resolver conflictos por vscode:
+
+Abrir el archivo #code("main.py") y hacer click en Merge Editor
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZO_open_merge_editor.PNG", width: 90%),
+)
+
+#pagebreak()
+Esto nos abre el Merge Editor:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZP_merge_editor.PNG", height: 80%),
+)
+
+#pagebreak()
+Para entender que nos muestra el Merge Editor, repasemos brevemente los 3 puntos clave involucrados en un merge que aparecen en el Merge Editor.
+/ Ancestro en común: Último commit que tienen en común ambas ramas (o _Common ancestor_).
+/ Current: Última versión de la rama actual (o _Snapshot to merge into_).
+/ Incoming: Última versión de la que queremos traer los cambios (o _Snapshot to merge in_).
+#figure(
+  image("assets/basic-merging-1.png", width: 80%)
+)
+
+#pagebreak()
+ - El recuadro superior izquierdo contiene los cambios de _Incoming_
+ - El recuadro superior derecho contiene los cambios de _Current_
+ - El recuadro inferior contiene los cambios del _Common ancestor_
+
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZP_merge_editor.PNG", height: 50%),
+)
+
+#pagebreak()
+El Merge Editor para cada conflicto nos da 3 opciones: _Accept Incoming/Current_, _Accept Combination_, _Ignore_. ¿Qué significan?
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZQ_merge_editor_options.PNG", height: 70%),
+)
+
+#pagebreak()
+/ Accept Incoming: Aceptar sin modificación los cambios de la rama de la cual quiero traer los cambios (en este casso iss53).
+/ Accept Current: Aceptar sin modificación los cambios de la rama actual (es decir, HEAD, que en este caso es master).
+/ Accept Combination: Permitirle a git que intente hacer una combinación de ambos cambios.
+/ Ignore: Ignorar el cambio de Incoming (si se presiona en el lado de Incoming) o ignorar el cambio de Current (si se presiona del lado de Current).
+
+_Nota: dependiendo el caso, se puede aceptar los cambios de una rama, de las dos ramas, o incluso ignorar los cambios de ambas._
+
+#pagebreak()
+#alternatives[
+Para ese caso, elegimos la opción _Accept Combination_. Vemos que el merge editor nos actualiza la ventana _Result_: antes tenía al common ancestor, y ahora tiene una combinación de _Incoming+Current_:][Observamos que la combinación que sugirió git nos sirve: está en inglés, y tiene el signo de exclamación al final, tal como queríamos.][Además, notamos que ahora dice _0 Conflicts Remaining_ (antes decía 1!)][_Nota: si así lo deseamos, luego de utilizar los botones Accept/Ignore, podemos modificar a mano el resultado del merge en la ventana Results._][Una vez que tenemos en la ventana Results el contenido que queremos para resolver el conflicto, hacemos click en _Complete Merge_:]
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZR_merge_editor_conflict_resolved_A.PNG", height: 50%),
+)
+
+#pagebreak()
+¡Ya fueron resueltos todos los conflictos!
+
+Lo único que queda por hacer es confirmar el merge haciento click en _Continue_:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZS_merge_done_A.PNG", height: 50%),
+)
+
+#pagebreak()
+Luego, desde git graph podemos confirmar que el merge se realizó exitosamente:
+#figure(
+  image("assets/capturas_vscode/14_handle_merge_conflict_ZS_merge_done_B.PNG", height: 50%),
+)
+
+#pagebreak()
+_Bonus: cleanup de ramas obsoletas del repositorio._
 #pagebreak()
 
 En este momento, tenemos 4 ramas en nuestro repositorio:
