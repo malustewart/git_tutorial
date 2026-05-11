@@ -1183,7 +1183,8 @@ Luego, desde git graph podemos confirmar que el merge se realizó exitosamente:
 )
 
 #pagebreak()
-_Bonus: cleanup de ramas obsoletas del repositorio._
+
+=== _Bonus: cleanup de ramas obsoletas del repositorio._
 #pagebreak()
 
 En este momento, tenemos 4 ramas en nuestro repositorio:
