@@ -35,15 +35,31 @@ Por último, en caso de utilizar un proxy, se lo debe especificar en el archivo 
 
  > Nota: el nombre del archivo debe ser simplemente `config` sin ninguna extensión (por ejemplo, no debe llamarse `config.txt`).
 
- - Copiar el siguiente contenido al archivo `config`:
+ - Copiar el siguiente contenido al archivo `config`, reemplazando `<proxy_host>` y `<proxy_port>` por los valores correspondientes al proxy utilizado:
 Para Windows:
 ```
-//TODO: completar este contenido
+Host *
+  ProxyCommand "C:/Program Files/Git/mingw64/bin/connect.exe" -H <proxy_host>:<proxy_port> %h %p
+  TCPKeepAlive yes
+  IdentitiesOnly yes
+
+Host github.com
+  User git
+  Port 443
+  Hostname ssh.github.com
 ```
 
 Para Linux/wsl:
 ```
-//TODO: completar este contenido
+Host *
+  ProxyCommand nc -X connect -x procy.cnea.gob.ar:1280 %h %p
+  TCPKeepAlive yes
+  IdentitiesOnly yes
+
+Host github.com
+  User git
+  Port 443
+  Hostname ssh.github.com
 ```
 
 
@@ -58,7 +74,7 @@ git clone https:github.com/<usuario>/<nombre del repositorio remoto>.git <nombre
 ```
 Por ejemplo, para clonar el repositorio listo para hacer el merge con conflicto del ejercicio visto en clase, correr:
 ```
-https://github.com/malustewart/git-tutorial-merge-example.git mynewrepo
+git clone https://github.com/malustewart/git-tutorial-merge-example.git mynewrepo
 ```
 
 Esto debería clonar el repositorio llamado `git-tutorial-merge-example` de la usuaria `malustewart`, y guardarlo en una carpeta llamada `mynewrepo`.
@@ -86,12 +102,13 @@ Esto debería clonar el repositorio llamado `git-tutorial-merge-example` de la u
 
 La sección 3.b ("Merge con conflictos") de la presentación tiene el paso a paso de un ejercicio para resolver un merge con conflictos, tanto por línea de comandos como por interfaz gráfica de vscode.
 
- - Opción A) resolver todos los pasos de la sección 3.b. Estos pasos incluyen:
+ - Opción A) resolver todos los pasos de la sección 3.b de la presentación. Estos pasos incluyen:
     - Hacer commits y ramas para preparar el repositorio para hacer un merge con conflictos (sección 3.b.a. de la presentación)
     - Hacer un merge con conflictos (sección 3.b.b. de la presentación)
 
  - Opción B) adelantar todos los pasos de preparación de repositorio clonando un repositorio existente y solo hacer el merge con conflicto. Esto incluye:
-    - Clonar el repositorio llamado `git-tutorial-merge-example` de la usuaria `malustewart` (requiere completar la sección [Setup en Github](#setup-en-github) explicada previamente).
+    - Clonar el repositorio llamado `git-tutorial-merge-example` de la usuaria `malustewart` (requiere completar la sección [Setup en Github](#setup-en-github) explicada previamente) y correr: `git clone https://github.com/malustewart/git-tutorial-merge-example.git mynewrepo`
+
     - Acceder al repositorio clonado y hacer un merge con conflictos (sección 3.b.b de la presentación). La única diferencia es que algunas ramas apareceran con el nombre `origin/<nombre de rama>` en vez de `<nombre de rama>` (por ejemplo, `origin/iss53` en lugar de `iss53`) pero el instructivo puede seguirse igualmente.
 
 
