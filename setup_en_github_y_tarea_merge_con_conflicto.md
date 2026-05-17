@@ -65,7 +65,7 @@ Host github.com
 
 ## Clonar un repositorio
 
-Una vez configurada la nueva cuenta en github y la comunicación (ya sea por HTTP o SSH), es posible clonar repositorios por SSH. 
+Una vez configurada la nueva cuenta en github y la comunicación (ya sea por HTTP o SSH), es posible clonar repositorios. 
 
 ### Por HTTPS
 Para clonar un repositorio por HTTPS, correr:
